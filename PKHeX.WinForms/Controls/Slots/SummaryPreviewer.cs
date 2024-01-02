@@ -15,6 +15,8 @@ public sealed class SummaryPreviewer
     private readonly PokePreview Previewer = new();
     private CancellationTokenSource _source = new();
     private static HoverSettings Settings => Main.Settings.Hover;
+    private static ISaveFileProvider SAV { get; } = null!;
+    private static IPKMView Editor { get; } = null!;
 
     public void Show(Control pb, PKM pk)
     {
@@ -76,6 +78,54 @@ public sealed class SummaryPreviewer
         Cry.Stop();
     }
 
+    // 追求额外的预览信息
+    public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la)
+    {
+        // 如果没有设定，则返回原本的文本
+        if (!Settings.HoverSlotShowH2Text)
+            return result;
+
+        // 生成信息
+        result.Add("======= 致诚之心定制信息 =======");
+        result.Add($"相遇时间：{pk.MetDate}");
+        result.Add($"训练家：{pk.OT_Name}  {pk.DisplayTID}({pk.DisplaySID})");
+        result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
+        
+
+        // 显示追踪码
+        switch ((GameVersion)pk.Version)
+        {
+            case GameVersion.SH or GameVersion.SW or GameVersion.SWSH:
+                {
+                    result.Add($"HomeTracker：{((PK8)pk).Tracker}");
+                }
+                break;
+            case GameVersion.BD or GameVersion.SP or GameVersion.BDSP:
+                {
+                    result.Add($"HomeTracker：{((PB8)pk).Tracker}");
+                }
+                break;
+            case GameVersion.PLA:
+                {
+                    result.Add($"HomeTracker：{((PA8)pk).Tracker}");
+                }
+                break;
+            case GameVersion.SL or GameVersion.VL or GameVersion.SV:
+                {
+                    result.Add($"HomeTracker：{((PK9)pk).Tracker}");
+                }
+                break;
+        }
+
+        // 显示合法报告
+        bool verbose = Control.ModifierKeys == Keys.Control;
+        var report = la.Report(verbose);
+        result.Add($"======= 合法报告 =======\n{report}");
+
+        return result;
+    }
+
+
     public static string GetPreviewText(PKM pk, LegalityAnalysis la)
     {
         var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
@@ -83,6 +133,10 @@ public sealed class SummaryPreviewer
             return text;
         var result = new List<string> { text, string.Empty };
         LegalityFormatting.AddEncounterInfo(la, result);
+
+        // 追加致诚之心定制内容
+        result = H2PreviewText(result, pk, la);
+
         return string.Join(Environment.NewLine, result);
     }
 

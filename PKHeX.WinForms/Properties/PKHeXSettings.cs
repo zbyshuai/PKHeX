@@ -328,6 +328,9 @@ public sealed class HoverSettings
 
     [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
     public bool HoverSlotShowText { get; set; } = true;
+    
+    [LocalizedDescription("显示致诚之心备货需要的信息")]
+    public bool HoverSlotShowH2Text { get; set; } = false;
 
     [LocalizedDescription("Play PKM Slot Cry on Hover")]
     public bool HoverSlotPlayCry { get; set; } = true;
