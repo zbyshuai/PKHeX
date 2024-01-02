@@ -15,9 +15,6 @@ public sealed class SummaryPreviewer
     private readonly PokePreview Previewer = new();
     private CancellationTokenSource _source = new();
     private static HoverSettings Settings => Main.Settings.Hover;
-    private static ISaveFileProvider SAV { get; } = null!;
-    private static IPKMView Editor { get; } = null!;
-
     public void Show(Control pb, PKM pk)
     {
         if (pk.Species == 0)
@@ -87,13 +84,13 @@ public sealed class SummaryPreviewer
 
         // 生成信息
         result.Add("======= 致诚之心定制信息 =======");
-        result.Add($"相遇时间：{pk.MetDate}");
+        result.Add($"来源版本：{(GameVersion)pk.Version}  相遇时间：{pk.MetDate}");
         result.Add($"训练家：{pk.OT_Name}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
         
 
         // 显示追踪码
-        switch ((GameVersion)pk.Version)
+        switch (Main.Settings.Startup.DefaultSaveVersion)
         {
             case GameVersion.SH or GameVersion.SW or GameVersion.SWSH:
                 {
