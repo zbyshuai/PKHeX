@@ -54,4 +54,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="H2Core">
+      <HintPath>deps\H2Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>  
+
 </Project>

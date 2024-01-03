@@ -1,10 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using H2Core.PkHex.ToString;
+using static System.Net.Mime.MediaTypeNames;
+using static H2Core.PkHex.ToString.LangDict;
+using System.IO;
+using System.Reflection;
+
 
 namespace PKHeX.WinForms.Controls;
 
@@ -76,18 +83,22 @@ public sealed class SummaryPreviewer
     }
 
     // 追求额外的预览信息
+    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
+
     public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la)
     {
         // 如果没有设定，则返回原本的文本
         if (!Settings.HoverSlotShowH2Text)
             return result;
 
-        // 生成信息
+        // 传入参数
         result.Add("======= 致诚之心定制信息 =======");
-        result.Add($"来源版本：{(GameVersion)pk.Version}  相遇时间：{pk.MetDate}");
+        string lang = $"{Main.Settings.Startup.Language}";
+        string version = PKMToString.Version(pk.Version, lang);
+        result.Add($"来源版本：{version}  相遇时间：{pk.MetDate}");
         result.Add($"训练家：{pk.OT_Name}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
-        
+
 
         // 显示追踪码
         switch (Main.Settings.Startup.DefaultSaveVersion)
@@ -114,10 +125,16 @@ public sealed class SummaryPreviewer
                 break;
         }
 
-        // 显示合法报告
+        // 显示合法报告(仅显示合法报告)
         bool verbose = Control.ModifierKeys == Keys.Control;
-        var report = la.Report(verbose);
-        result.Add($"======= 合法报告 =======\n{report}");
+        if (verbose)
+        {
+            var resultNew = new List<string>();
+            var report = la.Report(verbose);
+            report = report.Contains("可疑") ? "**存在可疑！**" : report.Contains("非法") ? "**非法!**" : report;
+            resultNew.Add($"======= 合法报告 =======\n{report}");
+            return resultNew;
+        }
 
         return result;
     }
