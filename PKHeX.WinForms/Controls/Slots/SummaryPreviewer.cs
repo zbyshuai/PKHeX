@@ -127,13 +127,19 @@ public sealed class SummaryPreviewer
 
         // 显示合法报告(仅显示合法报告)
         bool verbose = Control.ModifierKeys == Keys.Control;
+        var report = la.Report(true);
+
         if (verbose)
         {
             var resultNew = new List<string>();
-            var report = la.Report(verbose);
-            report = report.Contains("可疑") ? "**存在可疑！**" : report.Contains("非法") ? "**非法!**" : report;
-            resultNew.Add($"======= 合法报告 =======\n{report}");
+            string valid = report.Contains("非法") ? "**非法!**" : report.Contains("可疑") ? "**存在可疑!**" : report;
+            resultNew.Add($"======= 合法报告 =======\n{valid}");
             return resultNew;
+        }
+        else
+        {
+            string valid = report.Contains("非法") ? "**非法!**" : report.Contains("可疑") ? "**存在可疑!**" : "合法";
+            result.Add($"======= 合法信息 =======\n{valid}");
         }
 
         return result;
@@ -142,10 +148,17 @@ public sealed class SummaryPreviewer
 
     public static string GetPreviewText(PKM pk, LegalityAnalysis la)
     {
+        // 预设输出结果
+        var result = new List<string>();
+
+        // ps信息
         var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
+
         if (!Main.Settings.Hover.HoverSlotShowEncounter)
             return text;
-        var result = new List<string> { text, string.Empty };
+
+        result.Add(text);
+
         LegalityFormatting.AddEncounterInfo(la, result);
 
         // 追加致诚之心定制内容
