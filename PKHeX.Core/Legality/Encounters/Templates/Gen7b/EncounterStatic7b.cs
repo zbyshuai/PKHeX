@@ -62,7 +62,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
-        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }

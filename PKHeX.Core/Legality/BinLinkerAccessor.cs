@@ -15,7 +15,7 @@ public readonly ref struct BinLinkerAccessor
     private readonly ReadOnlySpan<byte> Data;
 
     /// <summary> Total count of files available for accessing. </summary>
-    public ushort Length => ReadUInt16LittleEndian(Data[2..]);
+    public int Length => ReadUInt16LittleEndian(Data[2..]);
 
     /// <summary> Magic identifier for the file. </summary>
     public string Identifier => new([(char)Data[0], (char)Data[1]]);
@@ -31,11 +31,8 @@ public readonly ref struct BinLinkerAccessor
     private ReadOnlySpan<byte> GetEntry(int index)
     {
         int offset = 4 + (index * sizeof(int));
-        // Start and End are both 32-bit integers, sequentially.
-        // Read them in one shot a 64-bit integer and decompose.
-        var startEnd = ReadUInt64LittleEndian(Data[offset..]);
-        int start = (int)startEnd;
-        int end = (int)(startEnd >> 32);
+        int end = ReadInt32LittleEndian(Data[(offset + 4)..]);
+        int start = ReadInt32LittleEndian(Data[offset..]);
         return Data[start..end];
     }
 

@@ -2,28 +2,11 @@ using System;
 
 namespace PKHeX.Core;
 
-/// <summary>
-/// Locations for <see cref="GameVersion.BDSP"/>.
-/// </summary>
-public static class Locations8b
+internal static class Locations8b
 {
-    /// <summary>
-    /// Checks if the location is a Grand Underground location.
-    /// </summary>
-    /// <param name="location">Location ID to check</param>
-    /// <returns>True if the location is a Grand Underground location</returns>
     public static bool IsUnderground(ushort location) => location is (>= 508 and <= 617);
-
-    /// <summary>
-    /// Checks if the location is a Great Marsh location.
-    /// </summary>
-    /// <param name="location">Location ID to check</param>
-    /// <returns>True if the location is a Great Marsh location</returns>
     public static bool IsMarsh(ushort location) => location is (>= 219 and <= 224);
 
-    /// <summary>
-    /// Available location list for the 00000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met0 =>
     [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
@@ -96,9 +79,6 @@ public static class Locations8b
         648, 649, 650, 651, 652, 653, 654, 655, 656, 657,
     ];
 
-    /// <summary>
-    /// Available location list for the 30000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
                30001,        30003, 30004, 30005, 30006, 30007,        30009,
@@ -106,9 +86,6 @@ public static class Locations8b
         30020,        30022,
     ];
 
-    /// <summary>
-    /// Available location list for the 40000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met4 =>
     [
                40001, 40002, 40003, 40005, 40006, 40007, 40008, 40009,
@@ -121,8 +98,5 @@ public static class Locations8b
         40070, 40071, 40072, 40074, 40075, 40076, 40077,
     ];
 
-    /// <summary>
-    /// Available location list for the 60000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* BD/SP */ 60005, 60006, 60007, 60010];
 }

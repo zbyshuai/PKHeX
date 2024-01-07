@@ -75,15 +75,13 @@ public static class BallApplicator
 
     private static int ApplyFirstLegalBall(PKM pk, ReadOnlySpan<Ball> balls)
     {
-        var initial = pk.Ball;
         foreach (var b in balls)
         {
-            var test = (int)b;
-            pk.Ball = test;
+            pk.Ball = (int)b;
             if (new LegalityAnalysis(pk).Valid)
-                return test;
+                break;
         }
-        return initial; // fail, revert
+        return pk.Ball;
     }
 
     private static int GetBallList(int ball, Span<Ball> result)

@@ -14,14 +14,13 @@ public static class EncounterMovesetGenerator
     /// <summary>
     /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters(PKM,ReadOnlyMemory{ushort},GameVersion)"/> method.
     /// </summary>
-    public static IReadOnlyCollection<EncounterTypeGroup> PriorityList { get; set; } = GetAllGroups();
+    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+    public static IReadOnlyCollection<EncounterTypeGroup> PriorityList { get; set; } = PriorityList = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
 
     /// <summary>
     /// Resets the <see cref="PriorityList"/> to the default values.
     /// </summary>
-    public static void ResetFilters() => PriorityList = GetAllGroups();
-
-    private static EncounterTypeGroup[] GetAllGroups() => (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
+    public static void ResetFilters() => PriorityList = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
 
     /// <summary>
     /// Gets possible <see cref="IEncounterable"/> objects that allow all moves requested to be learned.

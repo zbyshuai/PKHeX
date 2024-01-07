@@ -2,9 +2,6 @@ using System;
 
 namespace PKHeX.Core;
 
-/// <summary>
-/// Locations for <see cref="GameVersion.SV"/>.
-/// </summary>
 internal static class Locations9
 {
     /// <summary>
@@ -27,9 +24,6 @@ internal static class Locations9
     /// </summary>
     public static bool IsPaldeaDLC(ushort location) => location is 196 or 198; // Area Zero Underdepths
 
-    /// <summary>
-    /// Available location list for the 00000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<byte> Met0 =>
     [
              002, 004, 006, 008,
@@ -58,9 +52,6 @@ internal static class Locations9
         200,
     ];
 
-    /// <summary>
-    /// Available location list for the 30000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
                30001,        30003, 30004, 30005, 30006, 30007, 30008, 30009,
@@ -68,9 +59,6 @@ internal static class Locations9
         30020, 30021, 30022, 30023, 30024,
     ];
 
-    /// <summary>
-    /// Available location list for the 40000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met4 =>
     [
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
@@ -83,8 +71,5 @@ internal static class Locations9
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078,
     ];
 
-    /// <summary>
-    /// Available location list for the 60000 set of location names.
-    /// </summary>
     public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* S/V */ 60005];
 }

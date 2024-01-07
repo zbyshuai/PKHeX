@@ -97,7 +97,7 @@ public sealed record EncounterStatic7(GameVersion Version)
 
         if (Relearn.HasMoves)
             pk.SetRelearnMoves(Relearn);
-        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
+        EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 

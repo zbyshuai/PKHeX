@@ -63,7 +63,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;

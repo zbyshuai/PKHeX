@@ -148,7 +148,7 @@ public sealed class LearnGroup1 : ILearnGroup
     {
         if (!ParseSettings.AllowGen1Tradeback)
             return false;
-        var rate = pk1.CatchRate;
+        var rate = pk1.Catch_Rate;
         return rate is 0 || GBRestrictions.IsTradebackCatchRate(rate);
     }
 

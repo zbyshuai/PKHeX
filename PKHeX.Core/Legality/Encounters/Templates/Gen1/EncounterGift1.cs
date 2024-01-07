@@ -51,15 +51,15 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     {
         var lang = GetTemplateLanguage(tr);
         var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil.GetPersonal1(Version, Species);
+        var pi = EncounterUtil1.GetPersonal1(Version, Species);
         var pk = new PK1(isJapanese)
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            CatchRate = GetInitialCatchRate(pi),
-            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(Util.Rand),
+            Catch_Rate = GetInitialCatchRate(),
+            DV16 = IVs.IsSpecified ? EncounterUtil1.GetDV16(IVs) : EncounterUtil1.GetRandomDVs(Util.Rand),
 
-            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
+            OT_Name = EncounterUtil1.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
@@ -77,15 +77,15 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
         {
             // Amnesia Psyduck has different catch rates depending on language
             if (Species == (int)Core.Species.Psyduck)
-                pk.CatchRate = pk.Japanese ? (byte)167 : (byte)168;
+                pk.Catch_Rate = pk.Japanese ? (byte)167 : (byte)168;
             else
-                pk.CatchRate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
+                pk.Catch_Rate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
         }
 
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+            EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -106,7 +106,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
 
     #endregion
 
-    private byte GetInitialCatchRate(PersonalInfo1 pi)
+    private byte GetInitialCatchRate()
     {
         if (Version == GameVersion.Stadium)
         {
@@ -116,7 +116,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
         }
 
         // Encounters can have different Catch Rates (RBG vs Y)
-        return pi.CatchRate;
+        return EncounterUtil1.GetWildCatchRate(Version, Species);
     }
 
     #region Matching
@@ -205,24 +205,24 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     {
         if (pk is not PK1 pk1)
             return false;
-        return !IsCatchRateValid(pk1.CatchRate);
+        return !IsCatchRateValid(pk1.Catch_Rate);
     }
 
-    private bool IsCatchRateValid(byte rate)
+    private bool IsCatchRateValid(byte catch_rate)
     {
-        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
+        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(catch_rate))
             return true;
 
         if (Version == GameVersion.Stadium)
         {
             // Amnesia Psyduck has different catch rates depending on language
             if (Species == (int)Core.Species.Psyduck)
-                return rate == (Language == EncounterGBLanguage.Japanese ? 167 : 168);
-            return rate is 167 or 168;
+                return catch_rate == (Language == EncounterGBLanguage.Japanese ? 167 : 168);
+            return catch_rate is 167 or 168;
         }
 
         // Encounters can have different Catch Rates (RBG vs Y)
-        return GBRestrictions.RateMatchesEncounter(Species, Version, rate);
+        return GBRestrictions.RateMatchesEncounter(Species, Version, catch_rate);
     }
 
     #endregion

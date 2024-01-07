@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -26,8 +25,8 @@ public static class EncounterSuggestion
         var generator = EncounterGenerator.GetGenerator(ver);
 
         var evos = chain[..count].ToArray();
-        var w = EncounterSelection.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Slot));
-        var s = EncounterSelection.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Static));
+        var w = EncounterUtil.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Slot));
+        var s = EncounterUtil.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Static));
 
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
@@ -42,7 +41,7 @@ public static class EncounterSuggestion
         return GetSuggestedEncounter(pk, w, loc);
     }
 
-    private static bool IsSpeciesFormMatch<T>(ReadOnlySpan<EvoCriteria> evos, T encounter) where T : ISpeciesForm
+    private static bool IsSpeciesFormMatch(ReadOnlySpan<EvoCriteria> evos, ISpeciesForm encounter)
     {
         foreach (var evo in evos)
         {
@@ -144,21 +143,11 @@ public static class EncounterSuggestion
         return max;
     }
 
-    /// <summary>
-    /// Iterates through all possible levels to drop to the lowest level possible.
-    /// </summary>
-    /// <param name="pk">Entity to modify</param>
-    /// <param name="isLegal">Current state is legal or invalid (false)</param>
-    /// <param name="level">Maximum level to iterate down from</param>
-    /// <returns>True if the level was changed, false if it was already at the lowest level possible or impossible.</returns>
-    public static bool IterateMinimumCurrentLevel(PKM pk, bool isLegal, int level = 100)
+    public static bool IterateMinimumCurrentLevel(PKM pk, bool isLegal, int max = 100)
     {
         // Find the lowest level possible while still remaining legal.
-        var growth = pk.PersonalInfo.EXPGrowth;
-        var table = Experience.GetTable(growth);
-
+        var original = pk.CurrentLevel;
         var originalEXP = pk.EXP;
-        var original = Experience.GetLevel(originalEXP, table);
         if (isLegal)
         {
             // If we can't go any lower, we're already at the lowest level possible.
@@ -166,31 +155,28 @@ public static class EncounterSuggestion
                 return false;
 
             // Skip to original - 1, since all levels [original,max] are already legal.
-            level = original - 1;
+            max = original - 1;
         }
         // If it's not legal, then we'll first try the max level and abort if it will never be legal.
 
         // Find the first level that is illegal via searching downwards, and set it to the level above it.
-        while (level != 0)
+        for (int i = max; i != 0; i--)
         {
-            pk.EXP = Experience.GetEXP(level, table);
+            pk.CurrentLevel = i;
             var la = new LegalityAnalysis(pk);
             var valid = la.Valid;
             if (valid)
-            {
-                --level;
                 continue;
-            }
 
             // First illegal level found, revert to the previous level.
-            level = Math.Min(100, level + 1);
-            if (level == original) // same, revert actual EXP value.
+            var revert = Math.Min(100, i + 1);
+            if (revert == original) // same, revert actual EXP value.
             {
                 pk.EXP = originalEXP;
                 return false;
             }
 
-            pk.EXP = Experience.GetEXP(level, table);
+            pk.CurrentLevel = revert;
             return true;
         }
 
@@ -220,35 +206,5 @@ public static class EncounterSuggestion
                 minMove = i;
         }
         return Math.Max(minMove, minLevel);
-    }
-}
-
-internal static class EncounterSelection
-{
-    internal static T? GetMinByLevel<T>(ReadOnlySpan<EvoCriteria> chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
-    {
-        // MinBy grading: prefer species-form match, select lowest min level encounter.
-        // Minimum allocation :)
-        T? result = null;
-        int min = int.MaxValue;
-
-        foreach (var enc in possible)
-        {
-            int m = int.MaxValue;
-            foreach (var evo in chain)
-            {
-                bool specDiff = enc.Species != evo.Species || enc.Form != evo.Form;
-                var val = (Convert.ToInt32(specDiff) << 16) | enc.LevelMin;
-                if (val < m)
-                    m = val;
-            }
-
-            if (m >= min)
-                continue;
-            min = m;
-            result = enc;
-        }
-
-        return result;
     }
 }

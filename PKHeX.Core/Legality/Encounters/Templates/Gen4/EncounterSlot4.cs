@@ -7,7 +7,6 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType, IEncounterFormRandom, IRandomCorrelation
 {
     public int Generation => 4;
-    int ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
@@ -15,22 +14,22 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public ushort Location => Parent.Location;
+    public int Location => Parent.Location;
     public SlotType Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
 
-    public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations4.IsSafariZoneLocation(Location);
+    public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations.IsSafariZoneLocation4(Location);
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
         if (Type is SlotType.BugContest)
             return Ball.Sport;
-        return Locations4.IsSafariZoneLocation(Location) ? Ball.Safari : fallback;
+        return Locations.IsSafariZoneLocation4(Location) ? Ball.Safari : fallback;
     }
 
     #region Generating
@@ -64,7 +63,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -72,7 +71,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private byte GetWildForm(byte form)
     {
-        if (form == EncounterUtil.FormRandom) // flagged as totally random
+        if (form == EncounterUtil1.FormRandom) // flagged as totally random
             return (byte)Util.Rand.Next(PersonalTable.HGSS[Species].FormCount);
         return form;
     }
@@ -138,7 +137,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariZoneLocation(Location))
+        if ((pk.Ball == (int)Ball.Safari) != Locations.IsSafariZoneLocation4(Location))
             return EncounterMatchRating.PartialMatch;
         if ((pk.Ball == (int)Ball.Sport) != (Type == SlotType.BugContest))
         {
