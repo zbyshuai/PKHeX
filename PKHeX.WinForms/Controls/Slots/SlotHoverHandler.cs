@@ -23,7 +23,7 @@ public sealed class SlotHoverHandler : IDisposable
     private PictureBox? Slot;
     private SlotTrackerImage? LastSlot;
 
-    public void Start(PictureBox pb, SlotTrackerImage lastSlot)
+    public void Start(PictureBox pb, SlotTrackerImage lastSlot, SaveFile SAV)
     {
         var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
         if (view == null)
@@ -56,7 +56,7 @@ public sealed class SlotHoverHandler : IDisposable
             bg = ImageUtil.LayerImage(orig, bg, 0, 0);
         pb.BackgroundImage = LastSlot.CurrentBackground = bg;
 
-        Preview.Show(pb, pk);
+        Preview.Show(pb, pk, SAV);
     }
 
     public void Stop()

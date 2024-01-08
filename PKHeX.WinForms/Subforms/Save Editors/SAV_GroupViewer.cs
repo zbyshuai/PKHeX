@@ -51,7 +51,7 @@ public sealed partial class SAV_GroupViewer : Form
         var pb = (PictureBox)sender;
         var index = Box.Entries.IndexOf(pb);
         var slot = group.Slots[index];
-        Preview.Show(pb, slot);
+        Preview.Show(pb, slot, SAV);
     }
 
     private void OmniClick(object sender, EventArgs e)

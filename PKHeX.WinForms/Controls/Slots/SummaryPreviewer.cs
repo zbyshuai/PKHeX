@@ -22,7 +22,7 @@ public sealed class SummaryPreviewer
     private readonly PokePreview Previewer = new();
     private CancellationTokenSource _source = new();
     private static HoverSettings Settings => Main.Settings.Hover;
-    public void Show(Control pb, PKM pk)
+    public void Show(Control pb, PKM pk, SaveFile SAV)
     {
         if (pk.Species == 0)
         {
@@ -31,19 +31,19 @@ public sealed class SummaryPreviewer
         }
 
         if (Settings.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
-            UpdatePreview(pb, pk);
+            UpdatePreview(pb, pk, SAV);
         else if (Settings.HoverSlotShowText)
-            ShowSet.SetToolTip(pb, GetPreviewText(pk, new LegalityAnalysis(pk)));
+            ShowSet.SetToolTip(pb, GetPreviewText(pk, new LegalityAnalysis(pk), SAV));
         if (Settings.HoverSlotPlayCry)
             Cry.PlayCry(pk, pk.Context);
     }
 
-    private void UpdatePreview(Control pb, PKM pk)
+    private void UpdatePreview(Control pb, PKM pk, SaveFile SAV)
     {
         _source.Cancel();
         _source = new();
         UpdatePreviewPosition(new());
-        Previewer.Populate(pk);
+        Previewer.Populate(pk, SAV);
         Previewer.Show();
     }
 
@@ -85,7 +85,7 @@ public sealed class SummaryPreviewer
     // 追求额外的预览信息
     public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
 
-    public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la)
+    public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la, SaveFile SAV)
     {
         // 如果没有设定，则返回原本的文本
         if (!Settings.HoverSlotShowH2Text)
@@ -101,7 +101,7 @@ public sealed class SummaryPreviewer
 
 
         // 显示追踪码
-        switch (Main.Settings.Startup.DefaultSaveVersion)
+        switch (SAV.Version)
         {
             case GameVersion.SH or GameVersion.SW or GameVersion.SWSH:
                 {
@@ -146,7 +146,7 @@ public sealed class SummaryPreviewer
     }
 
 
-    public static string GetPreviewText(PKM pk, LegalityAnalysis la)
+    public static string GetPreviewText(PKM pk, LegalityAnalysis la, SaveFile SAV)
     {
         // 预设输出结果
         var result = new List<string>();
@@ -162,7 +162,7 @@ public sealed class SummaryPreviewer
         LegalityFormatting.AddEncounterInfo(la, result);
 
         // 追加致诚之心定制内容
-        result = H2PreviewText(result, pk, la);
+        result = H2PreviewText(result, pk, la, SAV);
 
         return string.Join(Environment.NewLine, result);
     }

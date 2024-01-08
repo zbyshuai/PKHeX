@@ -37,7 +37,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             return;
         bool dataPresent = pb.Image is not null;
         if (dataPresent)
-            Hover.Start(pb, LastSlot);
+            Hover.Start(pb, LastSlot,SE.SAV);
         pb.Cursor = dataPresent ? Cursors.Hand : Cursors.Default;
     }
 

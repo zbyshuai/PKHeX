@@ -30,12 +30,12 @@ public partial class PokePreview : Form
         Properties.Resources.gender_2,
     ];
 
-    public void Populate(PKM pk)
+    public void Populate(PKM pk, SaveFile SAV)
     {
         var la = new LegalityAnalysis(pk);
         int width = PopulateHeader(pk);
         PopulateMoves(pk, la, ref width);
-        PopulateText(pk, la, width);
+        PopulateText(pk, la, width, SAV);
     }
 
     private int PopulateHeader(PKM pk)
@@ -101,9 +101,9 @@ public partial class PokePreview : Form
         width = Math.Max(width, maxWidth + Move1.Margin.Horizontal + interiorMargin);
     }
 
-    private void PopulateText(PKM pk, LegalityAnalysis la, int width)
+    private void PopulateText(PKM pk, LegalityAnalysis la, int width, SaveFile SAV)
     {
-        var (stats, enc) = GetStatsString(pk, la);
+        var (stats, enc) = GetStatsString(pk, la, SAV);
         var settings = Main.Settings.Hover;
 
         bool hasMoves = pk.MoveCount != 0;
@@ -137,9 +137,9 @@ public partial class PokePreview : Form
         return TextRenderer.MeasureText(text, font, new Size(), flags);
     }
 
-    private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la)
+    private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la, SaveFile SAV)
     {
-        var setText = SummaryPreviewer.GetPreviewText(pk, la);
+        var setText = SummaryPreviewer.GetPreviewText(pk, la, SAV);
         var sb = new StringBuilder();
         var lines = setText.AsSpan().EnumerateLines();
         if (!lines.MoveNext())
