@@ -83,8 +83,7 @@ public sealed class SummaryPreviewer
     }
 
     // 追求额外的预览信息
-    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
-
+    
     public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la, SaveFile SAV)
     {
         // 如果没有设定，则返回原本的文本
