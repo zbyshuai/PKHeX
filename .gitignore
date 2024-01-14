@@ -264,3 +264,4 @@ pip-log.txt
 #################
 
 *.userprefs
+PKHeX.WinForms/deps/H2Core.dll
