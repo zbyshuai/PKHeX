@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>PKHeX.Drawing.PokeSprite</RootNamespace>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
