@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Metadata;
-using H2Core.Resource;
 
 
 namespace PKHeX.Core;
@@ -171,7 +170,9 @@ public static class BoxExport
         }
         if (pk.IsEgg == true)
         {
-            SpeciesInfo = GameInfo.GetStrings("zh").Species[ pk.Species ] + "蛋";
+            string Species = GameInfo.GetStrings("zh").Species[ pk.Species ];
+            string Shiny = pk.IsShiny ? "闪" : "";
+            SpeciesInfo = Species + Shiny + "蛋";
             slotName = $"{pk.Species} - {SpeciesInfo} - {pk.PID}";
         }
         else
