@@ -91,7 +91,7 @@ public sealed class SummaryPreviewer
     public static List<string> H2PreviewText(List<string> result, PKM pk, LegalityAnalysis la, SaveFile SAV)
     {
         // 如果没有设定，则返回原本的文本
-        if (!Settings.HoverSlotShowH2Text)
+        if (!Main.Settings.H2.HoverSlotShowH2Text)
             return result;
 
         // 传入参数

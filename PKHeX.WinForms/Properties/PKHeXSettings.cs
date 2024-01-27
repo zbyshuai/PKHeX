@@ -29,6 +29,7 @@ public sealed class PKHeXSettings
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
+    public H2Settings H2 { get; set; } = new();
 
     // UI Tweaks
     public DisplaySettings Display { get; set; } = new();
@@ -328,6 +329,20 @@ public sealed class MysteryGiftDatabaseSettings
     public bool FilterUnavailableSpecies { get; set; } = true;
 }
 
+
+
+[Serializable]
+public sealed class H2Settings
+{
+    
+    [LocalizedDescription("显示致诚之心备货需要的信息")]
+    public bool HoverSlotShowH2Text { get; set; } = false;
+    
+    [LocalizedDescription("显示致诚之心备货需要的信息")]
+    public bool H2ExportFileName { get; set; } = true;
+
+}
+
 [Serializable]
 public sealed class HoverSettings
 {
@@ -339,9 +354,6 @@ public sealed class HoverSettings
 
     [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
     public bool HoverSlotShowText { get; set; } = true;
-    
-    [LocalizedDescription("显示致诚之心备货需要的信息")]
-    public bool HoverSlotShowH2Text { get; set; } = false;
 
     [LocalizedDescription("Play PKM Slot Cry on Hover")]
     public bool HoverSlotPlayCry { get; set; } = true;

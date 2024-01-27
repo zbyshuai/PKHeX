@@ -1,5 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
+using System.Reflection.Metadata;
+using H2Core.Resource;
+
 
 namespace PKHeX.Core;
 
@@ -93,7 +99,9 @@ public static class BoxExport
                     continue;
             }
 
-            var fileName = GetFileName(pk, settings.FileIndexPrefix, namer, box, slot, boxSlotCount);
+            
+            var fileNameMode = settings.FileNameMode;
+            var fileName = GetFileName(pk, settings.FileIndexPrefix, namer, box, slot, boxSlotCount, fileNameMode);
             var fn = Path.Combine(destPath, fileName);
             File.WriteAllBytes(fn, pk.DecryptedPartyData);
             ctr++;
@@ -125,9 +133,14 @@ public static class BoxExport
         };
     }
 
-    private static string GetFileName(PKM pk, BoxExportIndexPrefix mode, IFileNamer<PKM> namer, int box, int slot, int boxSlotCount)
+    private static string GetFileName(PKM pk, BoxExportIndexPrefix mode, IFileNamer<PKM> namer, int box, int slot, int boxSlotCount, BoxExportFileNameMode FileNameMode)
     {
-        var slotName = GetInnerName(namer, pk);
+        string slotName;
+        if (FileNameMode == BoxExportFileNameMode.H2)
+            slotName = GetH2Name(namer, pk);
+        else
+            slotName = GetInnerName(namer, pk);
+        
         var fileName = Util.CleanFileName(slotName);
         var prefix = GetPrefix(mode, box, slot, boxSlotCount);
 
@@ -141,6 +154,73 @@ public static class BoxExport
         BoxExportIndexPrefix.InBox => $"{slot:00} - ",
         _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
     };
+    
+
+
+    private static string GetH2Name(IFileNamer<PKM> namer, PKM pk)
+    {
+        int[] BallItemIDs  = [ 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 ];
+
+        string slotName = "";
+        string SpeciesInfo = "";
+        
+        if (pk.IsNicknamed == true)
+        {
+            SpeciesInfo = pk.Nickname;
+            slotName = $"{pk.Species} - {SpeciesInfo} - {pk.PID}";
+        }
+        if (pk.IsEgg == true)
+        {
+            SpeciesInfo = GameInfo.GetStrings("zh").Species[ pk.Species ] + "蛋";
+            slotName = $"{pk.Species} - {SpeciesInfo} - {pk.PID}";
+        }
+        else
+        {
+            slotName = GetInnerName(namer, pk);
+        }
+        // else
+        // {
+        //     // 根据规则生成名字
+        //     string IVSpecial = "";
+        //     int Vs = 0;
+        //     if (pk.IV_ATK == 31)
+        //         Vs += 1;
+        //     if (pk.IV_DEF == 31)
+        //         Vs += 1;
+        //     if (pk.IV_HP == 31)
+        //         Vs += 1;
+        //     if (pk.IV_SPA == 31)
+        //         Vs += 1;
+        //     if (pk.IV_SPD == 31)
+        //         Vs += 1;
+        //     if (pk.IV_SPE == 31)
+        //         Vs += 1;
+        //     if (pk.IV_ATK == 0)
+        //         IVSpecial += "0A";
+        //     if (pk.IV_SPD == 0)
+        //         IVSpecial += "0S";
+                
+        //     string Ball = Properties.Resources.text_Items_zh.Split("\n")[ BallItemIDs[pk.Ball] ];
+        //     string IVs = Vs < 4 ? "" : IVSpecial == "" ? $"{Vs}V" : $"{Vs}V" + IVSpecial;
+        //     string Specie = GameInfo.GetStrings("zh").Species[ pk.Species ];
+        //     string Item = Properties.Resources.text_Items_zh.Split("\n")[ pk.HeldItem ];
+            
+        //     SpeciesInfo = $"{Ball}-";
+        //     SpeciesInfo += pk.IsShiny ? "闪" + Specie : IVs != "" ? Specie + IVs : Item != "无" ? $"{Specie}(携带:{Item})" : "";
+        // }
+
+        
+        
+        
+        
+        try
+        {
+            return Util.CleanFileName(slotName);
+        }
+        catch { return "Name Error"; }
+    }
+
+    
 
     private static string GetInnerName(IFileNamer<PKM> namer, PKM pk)
     {

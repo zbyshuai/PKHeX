@@ -52,7 +52,31 @@ public sealed record BoxExportSettings
     /// </summary>
     [Category("Export")]
     public BoxExportNofify Notify { get; set; }
+    /// <summary>
+    /// Export notification settings -- whether to notify the user of the export
+    /// </summary>
+    
+    [Category("H2")]
+    public BoxExportFileNameMode FileNameMode { get; set; }
+
+
+
 }
+/// <summary>
+/// 输出文件名的方式
+/// </summary>
+public enum BoxExportFileNameMode : byte
+    {
+        /// <summary>
+        /// 使用默认的输出方式
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 使用H2的输出方式
+        /// </summary>
+        H2 = 1,
+    }
 
 /// <summary>
 /// Export scope for boxes
