@@ -273,7 +273,7 @@ class H2Namer
         // 如果有昵称
         if (pk.IsNicknamed == true && settings.UseNickName == H2UseNickName.Use && pk.Nickname != settings.RandomName && !pk.IsEgg)
             slotName = this.WithNickName(pk);
-        // 如果是正常的宝可梦
+        // 如果是正常的宝可梦.
         else
             slotName = this.WithPKMName(pk);
         try
