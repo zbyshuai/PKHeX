@@ -55,10 +55,22 @@ public sealed record BoxExportSettings
     /// <summary>
     /// Export notification settings -- whether to notify the user of the export
     /// </summary>
-    
+
     [Category("H2")]
     public BoxExportFileNameMode FileNameMode { get; set; }
-
+    
+    [Category("H2")]
+    public H2BallInfo BallInfo { get; set; }
+    
+    [Category("H2")]
+    public H2IVsInfo IVsInfo { get; set; }
+    
+    [Category("H2")]
+    public H2HeldItemInfo HeldItemInfo { get; set; }
+    
+    [Category("H2")]
+    public H2AbilityInfo AbilityInfo { get; set; }
+    
 
 
 }
@@ -66,17 +78,39 @@ public sealed record BoxExportSettings
 /// 输出文件名的方式
 /// </summary>
 public enum BoxExportFileNameMode : byte
-    {
-        /// <summary>
-        /// 使用默认的输出方式
-        /// </summary>
-        None = 0,
+{
+    /// <summary>
+    /// 使用默认的输出方式
+    /// </summary>
+    None = 0,
 
-        /// <summary>
-        /// 使用H2的输出方式
-        /// </summary>
-        H2 = 1,
-    }
+    /// <summary>
+    /// 使用H2的输出方式
+    /// </summary>
+    H2 = 1,
+}
+public enum H2BallInfo : byte
+{
+    None = 0,
+    Use = 1,
+}
+public enum H2IVsInfo : byte
+{
+    None = 0,
+    Use = 1,
+}
+public enum H2HeldItemInfo : byte
+{
+    None = 0,
+    Use = 1,
+}
+public enum H2AbilityInfo : byte
+{
+    None = 0,
+    Use = 1,
+}
+
+
 
 /// <summary>
 /// Export scope for boxes
