@@ -15,7 +15,7 @@ class H2Namer
     private int[] BallItemIDs  = [ 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 ];
     
     private string LanguageID = "zh";
-    
+    private bool isSetRandomName (PKM pk) => pk.OT_Friendship == int.Parse(settings.RandomNameRule) || pk.HT_Friendship == int.Parse(settings.RandomNameRule) && settings.UseRandomName == true;
     private string GetBallInfo(PKM pk) => GameInfo.GetStrings(LanguageID).balllist[ pk.Ball ];
     private string GetAbilityInfo(PKM pk) => GameInfo.GetStrings(LanguageID).Ability[ pk.Ability ];
     private string GetNatureInfo(PKM pk) => GameInfo.GetStrings(LanguageID).Natures[ pk.Nature ];
@@ -63,7 +63,7 @@ class H2Namer
         string SpeciesInfo = Shiny + Species + form + formArgument + Egg;
 
         // 如果是随机类型，有昵称且为随机名称
-        if (pk.IsNicknamed == true && pk.Nickname == settings.RandomName)
+        if ( isSetRandomName(pk) )
             SpeciesInfo += "(R)";
 
         return SpeciesInfo;
@@ -251,7 +251,7 @@ class H2Namer
         if (this.settings.SpecificName != "")
             slotName = this.WithSpecificName(pk);
         // 如果有昵称
-        else if (pk.IsNicknamed == true && settings.UseNickName == H2UseNickName.Use && pk.Nickname != settings.RandomName && !pk.IsEgg)
+        else if (pk.IsNicknamed == true && settings.UseNickName == H2UseNickName.Use && !pk.IsEgg)
             slotName = this.WithNickName(pk);
         // 如果是正常的宝可梦.
         else

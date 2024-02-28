@@ -77,7 +77,8 @@ public sealed record BoxExportSettings
     [Category("H2")]
     public H2UseNickName UseNickName { get; set; } = H2UseNickName.Use;
     [Category("H2")]
-    public string RandomName { get; set; } = "";
+    public bool UseRandomName { get; set; } = true;
+    public string RandomNameRule { get; set; } = "77";
     [Category("H2")]
     public string SepStyle { get; set; } = "-";
     [Category("H2")]
