@@ -2,43 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 
-
-
 namespace PKHeX.Core;
-
-using System;
-
-public class MyClass
-{
-    public string MyProperty { get; set; } = "Hello, World!";
-}
-
-class Program
-{
-    static void Main()
-    {
-        // 创建 MyClass 的实例
-        var myObject = new MyClass();
-
-        // 通过字符串获取属性的值
-        string propertyName = "MyProperty";
-        PropertyInfo? propertyInfo = typeof(MyClass).GetProperty(propertyName);
-
-        if (propertyInfo != null)
-        {
-            // 获取属性的值
-            string? value = (string?)propertyInfo.GetValue(myObject);
-            Console.WriteLine($"{propertyName} value: {value ?? "null"}");
-        }
-        else
-        {
-            Console.WriteLine($"Property {propertyName} not found.");
-        }
-    }
-}
 
 class H2Namer
 {
@@ -50,6 +18,7 @@ class H2Namer
     
     private string GetBallInfo(PKM pk) => GameInfo.GetStrings(LanguageID).balllist[ pk.Ball ];
     private string GetAbilityInfo(PKM pk) => GameInfo.GetStrings(LanguageID).Ability[ pk.Ability ];
+    private string GetNatureInfo(PKM pk) => GameInfo.GetStrings(LanguageID).Natures[ pk.Nature ];
 
     private string GetForm(PKM pk)
     {
@@ -66,7 +35,7 @@ class H2Namer
             return "";
         
         // 如果存在形态，则提取形态
-        formList[0] = "";
+        // formList[0] = "";
 
         if (form >= formList.Length)
             form = (byte)(formList.Length - 1);
@@ -76,7 +45,9 @@ class H2Namer
 
     private string GetFormArgument(PKM pk)
     {
-        string formArgument = FormConverter.GetFormArgumentStrings(pk.Species)[((PK9)pk).FormArgument];
+        string[] formArgumentList = FormConverter.GetFormArgumentStrings(pk.Species);
+        uint formArgumentIndex = ((PK9)pk).FormArgument;
+        string formArgument = formArgumentIndex > formArgumentList.Length ? "" : formArgumentList[formArgumentIndex];
         return formArgument == "" ? "" : $"-{formArgument}";
     }
 
@@ -87,9 +58,9 @@ class H2Namer
         string form = GetForm(pk);
         string formArgument = GetFormArgument(pk);
 
-        string Shiny = pk.IsShiny ? "闪" : "";
+        string Shiny = pk.IsShiny ? "★ " : "";
         string Egg = pk.IsEgg ? "蛋" : "";
-        string SpeciesInfo = Species + form + formArgument + Shiny + Egg;
+        string SpeciesInfo = Shiny + Species + form + formArgument + Egg;
 
         // 如果是随机类型，有昵称且为随机名称
         if (pk.IsNicknamed == true && pk.Nickname == settings.RandomName)
@@ -232,27 +203,33 @@ class H2Namer
 
     private string WithNickName(PKM pk)
     {
-        return $"{pk.Species} - {pk.Nickname} - {pk.PID}";
+        return $"{pk.Species} - {pk.Nickname} - {Util.Rand.Rand32()}";
     }
-    
+    private string WithSpecificName(PKM pk)
+    {
+        return $"{pk.Species} - {this.settings.SpecificName} - {Util.Rand.Rand32()}";
+    }
     private string WithPKMName(PKM pk)
     {
         List<string> SpeciesInfoList = new();
         
+        // 必定使用宝可梦的名称
+        SpeciesInfoList.Add( this.GetSpecieNameInfo(pk) );
         // 判断使用球种信息
         if (this.settings.BallInfo == H2BallInfo.Use)
             SpeciesInfoList.Add( this.GetBallInfo(pk) );
-        // 判断是否使用证章信息
-        if (this.settings.RibbonInfo == H2RibbonInfo.Use)
-            SpeciesInfoList.Add( this.GetMark(pk) );            
+        // 判断使用性格信息
+        if (this.settings.NatureInfo == H2NatureInfo.Use)
+            SpeciesInfoList.Add( this.GetNatureInfo(pk) );
         // 判断使用IV信息
         if (this.settings.IVsInfo == H2IVsInfo.Use)
             SpeciesInfoList.Add( this.GetIvsInfo(pk) );
-        // 判断使用道具信息
+        // 判断使用特性信息
         if (this.settings.AbilityInfo == H2AbilityInfo.Use)
             SpeciesInfoList.Add( this.GetAbilityInfo(pk) );        
-        // 必定使用宝可梦的名称
-        SpeciesInfoList.Add( this.GetSpecieNameInfo(pk) );
+        // 判断是否使用证章信息
+        if (this.settings.RibbonInfo == H2RibbonInfo.Use)
+            SpeciesInfoList.Add( this.GetMark(pk) );            
         // 判断使用道具信息
         if (this.settings.HeldItemInfo == H2HeldItemInfo.Use)
             SpeciesInfoList.Add( this.GetHeldItemInfo(pk) );
@@ -261,7 +238,7 @@ class H2Namer
         SpeciesInfoList.RemoveAll(item => string.IsNullOrEmpty(item));
         
         // 生成信息
-        string SpeciesInfo = string.Join("｜",SpeciesInfoList);
+        string SpeciesInfo = string.Join(settings.SepStyle, SpeciesInfoList);
         
         return $"{pk.Species} - {SpeciesInfo} - {Util.Rand.Rand32()}";
     }
@@ -270,8 +247,11 @@ class H2Namer
     public string Generate(PKM pk)
     {   
         string slotName;
+        // 如果使用特定昵称
+        if (this.settings.SpecificName != "")
+            slotName = this.WithSpecificName(pk);
         // 如果有昵称
-        if (pk.IsNicknamed == true && settings.UseNickName == H2UseNickName.Use && pk.Nickname != settings.RandomName && !pk.IsEgg)
+        else if (pk.IsNicknamed == true && settings.UseNickName == H2UseNickName.Use && pk.Nickname != settings.RandomName && !pk.IsEgg)
             slotName = this.WithNickName(pk);
         // 如果是正常的宝可梦.
         else

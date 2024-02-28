@@ -64,6 +64,8 @@ public sealed record BoxExportSettings
     
     [Category("H2")]
     public H2IVsInfo IVsInfo { get; set; } = H2IVsInfo.Use;
+    [Category("H2")]
+    public H2NatureInfo NatureInfo { get; set; } = H2NatureInfo.Use;
     
     [Category("H2")]
     public H2HeldItemInfo HeldItemInfo { get; set; } = H2HeldItemInfo.None;
@@ -76,6 +78,10 @@ public sealed record BoxExportSettings
     public H2UseNickName UseNickName { get; set; } = H2UseNickName.Use;
     [Category("H2")]
     public string RandomName { get; set; } = "";
+    [Category("H2")]
+    public string SepStyle { get; set; } = "-";
+    [Category("H2")]
+    public string SpecificName { get; set; } = "";
     
 
 
@@ -96,6 +102,11 @@ public enum BoxExportFileNameMode : byte
     H2 = 1,
 }
 public enum H2BallInfo : byte
+{
+    None = 0,
+    Use = 1,
+}
+public enum H2NatureInfo : byte
 {
     None = 0,
     Use = 1,
