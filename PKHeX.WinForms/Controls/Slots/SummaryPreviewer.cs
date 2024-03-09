@@ -97,9 +97,9 @@ public sealed class SummaryPreviewer
         // 传入参数
         result.Add("======= 致诚之心定制信息 =======");
         string lang = $"{Main.Settings.Startup.Language}";
-        string version = PKMToString.Version(pk.Version, lang);
+        string version = PKMToString.Version((int)pk.Version, lang);
         result.Add($"来源版本：{version}  相遇时间：{pk.MetDate}");
-        result.Add($"训练家：{pk.OT_Name}  {pk.DisplayTID}({pk.DisplaySID})");
+        result.Add($"训练家：{pk.OriginalTrainerName}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
 
 
