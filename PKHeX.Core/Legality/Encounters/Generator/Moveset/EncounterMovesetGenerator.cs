@@ -21,7 +21,7 @@ public static class EncounterMovesetGenerator
     /// </summary>
     public static void ResetFilters() => PriorityList = GetAllGroups();
 
-    private static EncounterTypeGroup[] GetAllGroups() => (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
+    private static EncounterTypeGroup[] GetAllGroups() => Enum.GetValues<EncounterTypeGroup>();
 
     /// <summary>
     /// Gets possible <see cref="IEncounterable"/> objects that allow all moves requested to be learned.
@@ -368,7 +368,7 @@ public static class EncounterMovesetGenerator
                 return true;
             if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Context, current))
                 return true;
-            if (enc is IEncounterFormRandom { IsRandomUnspecificForm: true })
+            if (enc is IEncounterFormRandom { IsRandomUnspecificForm: true } or { Species: (ushort)Species.Unown })
                 return true;
             if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && current.Generation() > 7) // totems get form wiped
                 return true;

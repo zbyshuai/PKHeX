@@ -38,7 +38,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override void RefreshChecksum() => Checksum = CalculateChecksum();
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
-    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_5STORED]);
 
     // Trash Bytes
     public override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
@@ -506,7 +506,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private static byte CountBattleRibbons(ReadOnlySpan<byte> data)
     {
-        var bits1 = data[0x24] & 0b0111_1111u; // Battle Ribbons
+        var bits1 = data[0x24] & 0b0111_1110u; // Battle Ribbons
         var bits2 = data[0x3E] & 0b0110_0000u; // Winning & Victory Ribbons
         return (byte)BitOperations.PopCount(bits1 | (bits2 << 2));
     }

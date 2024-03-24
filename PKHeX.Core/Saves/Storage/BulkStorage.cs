@@ -50,12 +50,10 @@ public abstract class BulkStorage : SaveFile
     protected override void SetChecksums() { }
 
     public override int GetBoxOffset(int box) => Box + (box * (SlotsPerBox * SIZE_STORED));
-    public override string GetBoxName(int box) => $"Box {box + 1:d2}";
-    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value) { }
     public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
     public override string GetString(ReadOnlySpan<byte> data)
-        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian);
+        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, Language);
 
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter.SetString(destBuffer, value, maxLength, option: option, generation: Generation, jp: blank.Japanese, isBigEndian: IsBigEndian, language: Language);

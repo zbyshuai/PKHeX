@@ -116,7 +116,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
             CatchRate = Trainer switch
             {
-                Stadium => 168, // be nice and give a Gorgeous Box
+                Stadium => GorgeousBox, // be nice and give a Gorgeous Box
                 _ => pi.CatchRate,
             },
             TID16 = Trainer switch
@@ -129,7 +129,6 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
             OriginalTrainerName = Trainer switch
             {
-                Recipient => EncounterUtil.GetTrainerName(tr, (int)lang),
                 Stadium => lang switch
                 {
                     Japanese => StadiumJPN,
@@ -140,8 +139,9 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
                     Spanish => StadiumSPA,
                     _ => StadiumENG, // shouldn't hit here
                 },
+                VirtualConsoleMew => lang == Japanese ? VirtualConsoleMewJPN : VirtualConsoleMewINT,
                 EuropeTour => FirstTourOT, // YOSHIRA
-                _ => string.Empty,
+                _ => EncounterUtil.GetTrainerName(tr, (int)lang),
             },
         };
 
@@ -155,7 +155,10 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         if (Language == LanguageRestriction.Japanese)
             return Japanese;
 
-        if (request is not (English or French or Italian or German or Spanish))
+        if (Language == LanguageRestriction.International && request is not (English or French or Italian or German or Spanish))
+            return English;
+
+        if (request is Hacked or UNUSED_6 or >= Korean)
             return English;
         return request;
     }
@@ -219,11 +222,11 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         _ => true,
     };
 
-    private bool IsTrainerIDValid(ITrainerID16 pk) => Trainer switch
+    private bool IsTrainerIDValid(PKM pk) => Trainer switch
     {
         Recipient => true,
         VirtualConsoleMew => pk.TID16 == TrainerIDVirtualConsoleMew,
-        Stadium => pk.TID16 == (Language == LanguageRestriction.Japanese ? TrainerIDStadiumJPN : TrainerIDStadiumINT),
+        Stadium => pk.TID16 == (pk.Japanese ? TrainerIDStadiumJPN : TrainerIDStadiumINT),
         _ => true,
     };
 
@@ -265,13 +268,20 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         return !IsCatchRateValid(pk1.CatchRate);
     }
 
+    private const byte NormalBox = 167;
+    private const byte GorgeousBox = 168;
+
     private bool IsCatchRateValid(byte rate)
     {
         if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
             return true;
 
         if (Version == GameVersion.Stadium)
-            return rate is 167 or 168;
+        {
+            if (Species == (ushort)Core.Species.Psyduck)
+                return rate == GorgeousBox;
+            return rate is NormalBox or GorgeousBox;
+        }
 
         var pi = PersonalTable.RB[Species];
         return pi.CatchRate == rate;

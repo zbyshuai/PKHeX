@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 <see cref="SaveFile"/> object for Pokémon Battle Revolution saves.
 /// </summary>
-public sealed class SAV4BR : SaveFile
+public sealed class SAV4BR : SaveFile, IBoxDetailName
 {
     protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
     public override string Extension => string.Empty;
@@ -107,7 +107,6 @@ public sealed class SAV4BR : SaveFile
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
-    protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;
@@ -158,14 +157,14 @@ public sealed class SAV4BR : SaveFile
 
     private string GetOTName(int slot)
     {
-        var ofs = 0x390 + (0x6FF00 * slot);
+        var ofs = 0x390 + (SIZE_SLOT * slot);
         var span = Data.AsSpan(ofs, 16);
         return GetString(span);
     }
 
     private void SetOTName(int slot, ReadOnlySpan<char> name)
     {
-        var ofs = 0x390 + (0x6FF00 * slot);
+        var ofs = 0x390 + (SIZE_SLOT * slot);
         var span = Data.AsSpan(ofs, 16);
         SetString(span, name, 7, StringConverterOption.ClearZero);
     }
@@ -175,6 +174,17 @@ public sealed class SAV4BR : SaveFile
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
+
+    public override uint Money
+    {
+        get => (uint)((Data[(_currentSlot * SIZE_SLOT) + 0x12861] << 16) | (Data[(_currentSlot * SIZE_SLOT) + 0x12862] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12863]);
+        set
+        {
+            Data[(_currentSlot * SIZE_SLOT) + 0x12861] = (byte)((value >> 16) & 0xFF);
+            Data[(_currentSlot * SIZE_SLOT) + 0x12862] = (byte)((value >> 8) & 0xFF);
+            Data[(_currentSlot * SIZE_SLOT) + 0x12863] = (byte)(value & 0xFF);
+        }
+    }
 
     public override ushort TID16
     {
@@ -206,18 +216,18 @@ public sealed class SAV4BR : SaveFile
         return Data.AsSpan(ofs, BoxNameLength);
     }
 
-    public override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         if (BoxName < 0)
-            return $"BOX {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
 
         var span = GetBoxNameSpan(box);
         if (ReadUInt16BigEndian(span) == 0)
-            return $"BOX {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
         return GetString(span);
     }
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         if (BoxName < 0)
             return;

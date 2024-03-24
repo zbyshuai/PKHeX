@@ -86,6 +86,9 @@ public static class BoxExport
     private static int ExportBox(SaveFile sav, string destPath, IFileNamer<PKM> namer, int box, BoxExportSettings settings,
         int boxSlotCount, int total)
     {
+        if (!Directory.Exists(destPath))
+            Directory.CreateDirectory(destPath);
+
         int count = GetSlotCountForBox(boxSlotCount, box, total);
         int ctr = 0;
         // Export each slot in the box.
@@ -120,7 +123,8 @@ public static class BoxExport
 
     private static string GetFolderName(SaveFile sav, int box, BoxExportFolderNaming mode)
     {
-        var boxName = Util.CleanFileName(sav.GetBoxName(box));
+        var boxName = sav is IBoxDetailNameRead r ? r.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
+        boxName = Util.CleanFileName(boxName);
         return mode switch
         {
             BoxExportFolderNaming.BoxName => boxName,
