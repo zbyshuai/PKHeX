@@ -318,7 +318,10 @@ public sealed class PK5 : PKM, ISanityChecksum,
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -572,6 +575,11 @@ public sealed class PK5 : PKM, ISanityChecksum,
         => StringConverter5.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter5.Terminator);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data, StringConverter5.Terminator);
+    public override int GetBytesPerChar() => 2;
 
     /// <inheritdoc cref="G4PKM.CheckKoreanNidoranDPPt"/>
     /// <remarks> Gen4->Gen5 chars transfer without resetting the name. Still relevant even as PK5. </remarks>
