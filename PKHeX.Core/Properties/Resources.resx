@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -130,18 +130,6 @@
   <data name="text_Character_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\zh\text_Character_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_dppt_uggoods_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_dppt_uggoods_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_dppt_ugspheres_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_dppt_ugspheres_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_dppt_ugtraps_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_dppt_ugtraps_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_dppt_ugtreasures_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_dppt_ugtreasures_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="text_Forms_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\zh\text_Forms_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -159,12 +147,6 @@
   </data>
   <data name="text_GroundTile_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\zh\text_GroundTile_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="text_hgss_walkercourses_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_hgss_walkercourses_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_hgss_walkercourses_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_hgss_walkercourses_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="text_Items_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\items\text_Items_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

@@ -36,6 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="H2Core">
+      <HintPath>deps\H2Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -54,12 +60,6 @@
     <EmbeddedResource Update="Subforms\Save Editors\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="H2Core">
-      <HintPath>deps\H2Core.dll</HintPath>
-    </Reference>
   </ItemGroup>  
 
 </Project>

@@ -6,11 +6,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
-using H2Core.PkHex.ToString;
 using static System.Net.Mime.MediaTypeNames;
-using static H2Core.PkHex.ToString.LangDict;
 using System.IO;
 using System.Reflection;
+
+using H2Core.PKMString;
 
 
 namespace PKHeX.WinForms.Controls;
@@ -93,40 +93,22 @@ public sealed class SummaryPreviewer
         // 如果没有设定，则返回原本的文本
         if (!Main.Settings.H2.HoverSlotShowH2Text)
             return result;
-
+        // 实例化
+        var strings = new DodoString(pk);
         // 传入参数
         result.Add("======= 致诚之心定制信息 =======");
         string lang = $"{Main.Settings.Startup.Language}";
-        string version = PKMToString.Version((int)pk.Version, lang);
+        string version = $"{pk.Version}";
         result.Add($"来源版本：{version}  相遇时间：{pk.MetDate}");
         result.Add($"训练家：{pk.OriginalTrainerName}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
 
-
         // 显示追踪码
-        switch (SAV.Version)
-        {
-            case GameVersion.SH or GameVersion.SW or GameVersion.SWSH:
-                {
-                    result.Add($"HomeTracker：{((PK8)pk).Tracker}");
-                }
-                break;
-            case GameVersion.BD or GameVersion.SP or GameVersion.BDSP:
-                {
-                    result.Add($"HomeTracker：{((PB8)pk).Tracker}");
-                }
-                break;
-            case GameVersion.PLA:
-                {
-                    result.Add($"HomeTracker：{((PA8)pk).Tracker}");
-                }
-                break;
-            case GameVersion.SL or GameVersion.VL or GameVersion.SV:
-                {
-                    result.Add($"HomeTracker：{((PK9)pk).Tracker}");
-                }
-                break;
-        }
+        result.Add($"HomeTracker：{strings.Tracker}");
+
+        // 添加证章信息
+        if (strings.Marks != "")
+            result.Add($"证章：{strings.Marks}");
 
         // 显示合法报告(仅显示合法报告)
         bool verbose = Control.ModifierKeys == Keys.Control;
