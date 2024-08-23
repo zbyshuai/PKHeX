@@ -110,6 +110,14 @@ public sealed class SummaryPreviewer
         if (strings.Marks != "")
             result.Add($"证章：{strings.Marks}");
 
+        // 将原有的Nature字段改成原始属性
+        result = result.Select(x => {
+            if (x.Contains("Nature"))
+                return x.Replace("Nature", $"（原始性格:{GameInfo.GetStrings("zh").Natures[(int)pk.Nature]}）");
+            else
+                return x;
+        }).ToList();
+
         // 显示合法报告(仅显示合法报告)
         bool verbose = Control.ModifierKeys == Keys.Control;
         var report = la.Report(true);
