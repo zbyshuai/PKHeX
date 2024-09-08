@@ -158,7 +158,7 @@ public sealed class StartupSettings : IStartupSettings
 
     // Don't let invalid values slip into the startup version.
     private GameVersion _defaultSaveVersion = PKX.Version;
-    private string _language = GameLanguage.DefaultLanguage;
+    private string _language = WinFormsUtil.GetCultureLanguage();
 
     [Browsable(false)]
     public string Language
@@ -166,8 +166,20 @@ public sealed class StartupSettings : IStartupSettings
         get => _language;
         set
         {
-            if (GameLanguage.GetLanguageIndex(value) == -1)
+            if (!GameLanguage.IsLanguageValid(value))
+            {
+                // Migrate old language codes set in earlier versions.
+                switch (value)
+                {
+                    case "zh":
+                        _language = "zh-Hans";
+                        break;
+                    case "zh2":
+                        _language = "zh-Hant";
+                        break;
+                }
                 return;
+            }
             _language = value;
         }
     }
