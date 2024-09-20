@@ -14,7 +14,7 @@ class H2Namer
 
     private int[] BallItemIDs  = [ 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 ];
     
-    private string LanguageID = "zh";
+    private string LanguageID = "zh-Hans";
     private bool isSetRandomName (PKM pk) => pk.OriginalTrainerFriendship == int.Parse(settings.RandomNameRule) || pk.HandlingTrainerFriendship == int.Parse(settings.RandomNameRule) && settings.UseRandomName == true;
     private string GetBallInfo(PKM pk) => GameInfo.GetStrings(LanguageID).balllist[ pk.Ball ];
     private string GetAbilityInfo(PKM pk) => GameInfo.GetStrings(LanguageID).Ability[ pk.Ability ];
@@ -71,7 +71,7 @@ class H2Namer
     
     private string GetHeldItemInfo(PKM pk)
     {
-        string Item = Properties.Resources.text_Items_zh.Split("\n")[ pk.HeldItem ];
+        string Item = Properties.Resources.text_Items_zh_Hans.Split("\n")[ pk.HeldItem ];
         return $"{Item}";
     }
 

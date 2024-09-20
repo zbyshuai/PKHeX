@@ -94,26 +94,36 @@ public sealed class SummaryPreviewer
         if (!Main.Settings.H2.HoverSlotShowH2Text)
             return result;
         // 实例化
-        var strings = new DodoString(pk);
+        var h2strings = new DodoString(pk);
+        var strings = GameInfo.GetStrings("zh-Hans");
+
         // 传入参数
         result.Add("======= 致诚之心定制信息 =======");
         string lang = $"{Main.Settings.Startup.Language}";
-        string version = $"{pk.Version}";
+        string version = strings.gamelist[(int)pk.Version];;
         result.Add($"来源版本：{version}  相遇时间：{pk.MetDate}");
         result.Add($"训练家：{pk.OriginalTrainerName}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
-
+        
         // 显示追踪码
-        result.Add($"HomeTracker：{strings.Tracker}");
+        result.Add($"HomeTracker：{h2strings.Tracker}");
+
+        // 添加体型内容
+        string Scale = $"体型: -";
+        Scale = (pk is PK9 pk9) ? $"体型:{pk9.Scale} 身高:{pk9.HeightScalar} 体重:{pk9.WeightScalar}" : Scale; 
+        Scale = (pk is PA8 pa8) ? $"体型:{pa8.Scale}  身高:{pa8.HeightScalar} 体重:{pa8.WeightScalar}" : Scale; 
+        Scale = (pk is PK8 pk8) ? $"身高:{pk8.HeightScalar} 体重:{pk8.WeightScalar}" : Scale; 
+        Scale = (pk is PB8 pb8) ? $"身高:{pb8.HeightScalar} 体重:{pb8.WeightScalar}" : Scale; 
+        result.Add(Scale);
 
         // 添加证章信息
-        if (strings.Marks != "")
-            result.Add($"证章：{strings.Marks}");
+        if (h2strings.Marks != "")
+            result.Add($"证章：{h2strings.Marks}");
 
         // 将原有的Nature字段改成原始属性
         result = result.Select(x => {
             if (x.Contains("Nature"))
-                return x.Replace("Nature", $"（原始性格:{GameInfo.GetStrings("zh").Natures[(int)pk.Nature]}）");
+                return x.Replace("Nature", $"（原始性格:{GameInfo.GetStrings("zh-Hans").Natures[(int)pk.Nature]}）");
             else
                 return x;
         }).ToList();

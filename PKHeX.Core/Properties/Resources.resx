@@ -118,36 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="text_Abilities_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Abilities_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Abilities_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Abilities_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Character_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Character_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Character_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Character_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Forms_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Forms_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Forms_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Forms_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Games_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Games_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Games_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Games_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_GroundTile_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_GroundTile_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="text_GroundTile_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_GroundTile_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
   <data name="text_Items_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\items\text_Items_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -169,70 +139,10 @@
   <data name="text_Items_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\items\text_Items_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Items_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\items\text_Items_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="text_Items_zh_Hans" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\items\text_Items_zh-Hans.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Items_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\items\text_Items_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Moves_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Moves_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Moves_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Moves_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Natures_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Natures_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Natures_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Natures_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Pokeblock_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Pokeblock_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Pokeblock_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Pokeblock_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Puff_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Puff_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Puff_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Puff_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbons_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Ribbons_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbons_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Ribbons_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Species_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Species_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Species_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Species_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_SuperTraining_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_SuperTraining_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_SuperTraining_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_SuperTraining_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_TrainingBag_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_TrainingBag_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_TrainingBag_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_TrainingBag_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Types_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Types_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Types_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Types_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Wallpaper_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Wallpaper_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Wallpaper_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\other\zh\text_Wallpaper_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="text_Items_zh_Hant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\items\text_Items_zh-Hant.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
