@@ -64,7 +64,7 @@ public sealed class SummaryPreviewer
         }
 
         if (Settings.HoverSlotShowText)
-            ShowSet.SetToolTip(pb, GetPreviewText(enc));
+            ShowSet.SetToolTip(pb, GetPreviewText(enc, Settings.HoverSlotShowEncounterVerbose));
         if (Settings.HoverSlotPlayCry)
             Cry.PlayCry(enc, enc.Context);
     }
@@ -170,9 +170,9 @@ public sealed class SummaryPreviewer
         return string.Join(Environment.NewLine, result);
     }
 
-    private static string GetPreviewText(IEncounterInfo enc)
+    private static string GetPreviewText(IEncounterInfo enc, bool verbose = false)
     {
-        var lines = enc.GetTextLines(GameInfo.Strings);
+        var lines = enc.GetTextLines(GameInfo.Strings, verbose);
         return string.Join(Environment.NewLine, lines);
     }
 }
