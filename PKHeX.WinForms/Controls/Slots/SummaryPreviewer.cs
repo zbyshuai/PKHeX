@@ -101,7 +101,7 @@ public sealed class SummaryPreviewer
         result.Add("======= 致诚之心定制信息 =======");
         string lang = $"{Main.Settings.Startup.Language}";
         string version = strings.gamelist[(int)pk.Version];;
-        result.Add($"来源版本：{version}  相遇时间：{pk.MetDate}");
+        result.Add($"来源版本：{version}  相遇时间：{pk.MetDate} 相遇地点：{h2strings.MetLocation}");
         result.Add($"训练家：{pk.OriginalTrainerName}  {pk.DisplayTID}({pk.DisplaySID})");
         result.Add($"PID：{pk.PID.ToString("X8")}  EC：{pk.EncryptionConstant.ToString("X8")}");
         
@@ -120,10 +120,15 @@ public sealed class SummaryPreviewer
         if (h2strings.Marks != "")
             result.Add($"证章：{h2strings.Marks}");
 
+        // 添加回忆技能信息
+        string RelearnMovesString = string.Join(",", h2strings.RelearnMoves);
+        if (RelearnMovesString.Length > 0)
+            result.Add($"可回忆招式：{RelearnMovesString}");
+
         // 将原有的Nature字段改成原始属性
         result = result.Select(x => {
             if (x.Contains("Nature"))
-                return x.Replace("Nature", $"（原始性格:{GameInfo.GetStrings("zh-Hans").Natures[(int)pk.Nature]}）");
+                return x.Replace("Nature", $"（原始性格:{strings.Natures[(int)pk.Nature]}）");
             else
                 return x;
         }).ToList();
